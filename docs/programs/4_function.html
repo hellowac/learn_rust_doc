@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>程序引子 - 猜数</title>
+        <title>函数</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../explain.html">说明</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../programs/1_guess_number.html" class="active"><strong aria-hidden="true">1.</strong> 程序引子 - 猜数</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 常见概念</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../programs/2_common_concept.html"><strong aria-hidden="true">2.1.</strong> 变量与可变性</a></li><li class="chapter-item expanded "><a href="../programs/3_data_type.html"><strong aria-hidden="true">2.2.</strong> 数据类型</a></li><li class="chapter-item expanded "><a href="../programs/4_function.html"><strong aria-hidden="true">2.3.</strong> 函数</a></li><li class="chapter-item expanded "><a href="../programs/5_notes.html"><strong aria-hidden="true">2.4.</strong> 注释</a></li><li class="chapter-item expanded "><a href="../programs/6_control_flow.html"><strong aria-hidden="true">2.5.</strong> 控制流</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../explain.html">说明</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../programs/1_guess_number.html"><strong aria-hidden="true">1.</strong> 程序引子 - 猜数</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 常见概念</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../programs/2_common_concept.html"><strong aria-hidden="true">2.1.</strong> 变量与可变性</a></li><li class="chapter-item expanded "><a href="../programs/3_data_type.html"><strong aria-hidden="true">2.2.</strong> 数据类型</a></li><li class="chapter-item expanded "><a href="../programs/4_function.html" class="active"><strong aria-hidden="true">2.3.</strong> 函数</a></li><li class="chapter-item expanded "><a href="../programs/5_notes.html"><strong aria-hidden="true">2.4.</strong> 注释</a></li><li class="chapter-item expanded "><a href="../programs/6_control_flow.html"><strong aria-hidden="true">2.5.</strong> 控制流</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -136,159 +136,101 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="程序1"><a class="header" href="#程序1">程序1</a></h1>
-<h2 id="hello-world"><a class="header" href="#hello-world">hello-world</a></h2>
+                        <ul>
+<li><a href="#%E5%87%BD%E6%95%B0">函数</a>
+<ul>
+<li><a href="#%E5%8F%82%E6%95%B0">参数</a></li>
+<li><a href="#%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F-%E5%87%BD%E6%95%B0%E4%BD%93">语句和表达式 【函数体】</a></li>
+<li><a href="#%E5%85%B7%E6%9C%89%E8%BF%94%E5%9B%9E%E5%80%BC%E7%9A%84%E5%87%BD%E6%95%B0">具有返回值的函数</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="函数"><a class="header" href="#函数">函数</a></h1>
+<ol>
+<li><code>main</code> 函数，它是很多程序的入口点。</li>
+<li><code>fn</code> 关键字，它用来声明新函数。</li>
+<li><code>Rust</code> 代码中的函数和变量名使用 <code>snake case</code> 规范风格。所有字母都是小写并使用下划线分隔单词。</li>
+<li>Rust 不关心函数定义于何处，在使用函数之前或之后，只要定义了就行</li>
+</ol>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     println!(&quot;Hello, world!&quot;);
+
+    another_function();
+}
+
+fn another_function() {
+    println!(&quot;Another function.&quot;);
 }
 </code></pre></pre>
-<h2 id="猜数版本1"><a class="header" href="#猜数版本1">猜数版本1</a></h2>
-<p>获取用户输入</p>
-<pre><pre class="playground"><code class="language-rust">use std::io;
+<h2 id="参数"><a class="header" href="#参数">参数</a></h2>
+<ol>
+<li>可以定义为拥有 参数（parameters）的函数，参数是特殊变量，是函数签名的一部分。</li>
+<li>在函数签名中，<strong>必须</strong> 声明每个参数的类型。【要求在函数定义中提供类型注解，意味着编译器再也不需要你在代码的其他地方注明类型来指出你的意图。】</li>
+<li>当定义多个参数时，使用逗号分隔。</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    another_function(5);
+}
 
-fn main() {
-    println!(&quot;Guess the number!&quot;);
-
-    println!(&quot;Please input your guess.&quot;);
-
-    let mut guess = String::new();
-
-    // 获取用户输入
-    io::stdin()
-        .read_line(&amp;mut guess)
-        .expect(&quot;Failed to read line&quot;);
-
-    println!(&quot;You guessed: {}&quot;, guess);
+fn another_function(x: i32) {  // 参数时函数签名的一部分
+    println!(&quot;The value of x is: {}&quot;, x);
 }
 </code></pre></pre>
-<h2 id="猜数版本2"><a class="header" href="#猜数版本2">猜数版本2</a></h2>
-<p>生成随机数</p>
-<pre><pre class="playground"><code class="language-rust">use std::io;
-use rand::Rng; // 使用rand包的Rng接口定义
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    print_labeled_measurement(5, 'h');
+}
 
-fn main() {
-    println!(&quot;Guess the number!&quot;);
-
-    let secret_number = rand::thread_rng().gen_range(1..101);  // 生成
-
-    println!(&quot;The secret number is: {}&quot;, secret_number);
-
-    println!(&quot;Please input your guess.&quot;);
-
-    let mut guess = String::new();
-
-    io::stdin()
-        .read_line(&amp;mut guess)
-        .expect(&quot;Failed to read line&quot;);
-
-    println!(&quot;You guessed: {}&quot;, guess);
+fn print_labeled_measurement(value: i32, unit_label: char) {  // 必须声明每个参数的类型
+    println!(&quot;The measurement is: {}{}&quot;, value, unit_label);
 }
 </code></pre></pre>
-<h2 id="猜数版本3"><a class="header" href="#猜数版本3">猜数版本3</a></h2>
-<p>处理比较输入</p>
-<pre><pre class="playground"><code class="language-rust">use rand::Rng;
-use std::cmp::Ordering;  // 要用到标准包里面的比较接口
-use std::io;
-
-fn main() {
-    println!(&quot;猜数!&quot;);
-
-    let secret_number = rand::thread_rng().gen_range(1..101);
-
-    // println!(&quot;神秘数字是: {}&quot;, secret_number.to_string());
-
-    println!(&quot;请输入你猜测的数字:&quot;);
-
-    let mut guess = String::new();
-
-    io::stdin()
-        .read_line(&amp;mut guess)
-        .expect(&quot;读取数据失败&quot;);
-
-    println!(&quot;你猜测的数是: {}&quot;, guess);
-
-    // 针对字符串进行比较
-    match guess.cmp(&amp;secret_number.to_string()){
-        Ordering::Less =&gt; println!(&quot;太小了！&quot;),
-        Ordering::Greater =&gt; println!(&quot;太大了!&quot;),
-        Ordering::Equal =&gt; println!(&quot;你赢了!&quot;),
-    }
+<h2 id="语句和表达式-函数体"><a class="header" href="#语句和表达式-函数体">语句和表达式 【函数体】</a></h2>
+<p>函数体由一系列的语句和一个可选的结尾表达式构成。</p>
+<ul>
+<li><strong>语句</strong>（Statements）是执行一些操作但不返回值的指令。</li>
+<li><strong>表达式</strong>（Expressions）计算并产生一个值。</li>
+</ul>
+<p>Rust 是一门基于 <strong>表达式</strong>（expression-based）的语言。 重点参考：<a href="https://kaisery.github.io/trpl-zh-cn/ch03-03-how-functions-work.html#%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F">https://kaisery.github.io/trpl-zh-cn/ch03-03-how-functions-work.html#%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F</a></p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let y = 6;  // 这是一个语句，不返回值
 }
 </code></pre></pre>
-<h2 id="猜数版本4"><a class="header" href="#猜数版本4">猜数版本4</a></h2>
-<p>转换输入为数字</p>
-<pre><pre class="playground"><code class="language-rust">use rand::Rng;
-use std::cmp::Ordering;  // 要用到标准包里面的比较接口
-use std::io;
-
-fn main() {
-    println!(&quot;猜数!&quot;);
-
-    let secret_number = rand::thread_rng().gen_range(1..101);
-
-    // println!(&quot;神秘数字是: {}&quot;, secret_number.to_string());
-
-    loop {
-        println!(&quot;请输入你猜测的数字:&quot;);
-
-        let mut guess = String::new();
-
-        io::stdin().read_line(&amp; mut guess).expect(&quot;不能读取行!&quot;);
-
-        let guess: u32 = guess.trim().parse().expect(&quot;请输入数字！&quot;);
-
-        println!(&quot;你输入的是： {}&quot;, guess);
-
-        match guess.cmp(&amp;secret_number){
-            Ordering::Less =&gt; println!(&quot;太小了&quot;),
-            Ordering::Greater =&gt; println!(&quot;太大了&quot;),
-            Ordering::Equal =&gt; {
-                println!(&quot;你赢了&quot;);
-                break;
-            }
-
-        }
-    }
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let x = (let y = 6);  // let y = 6 是一个语句，不返回值，所以将其结果赋值给 x 产生错误。
 }
 </code></pre></pre>
-<h2 id="猜数版本5"><a class="header" href="#猜数版本5">猜数版本5</a></h2>
-<p>处理程序崩溃情况</p>
-<pre><pre class="playground"><code class="language-rust">use rand::Rng;
-use std::cmp::Ordering;  // 要用到标准包里面的比较接口
-use std::io;
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // 用大括号创建的一个新的块作用域也是一个表达式
+    let y = {
+        let x = 3;
+        x + 1  // 当结尾有 分号 “;” 时就表示是一个语句，而语句不会返回值，所以这里 表示 x + 1 为表达式，会作为这块作用域的返回值
+    };
+
+    println!(&quot;The value of y is: {}&quot;, y);
+}
+</code></pre></pre>
+<h2 id="具有返回值的函数"><a class="header" href="#具有返回值的函数">具有返回值的函数</a></h2>
+<p>函数可以向调用它的代码返回值。在函数括号后面使用箭头（-&gt;）并在剪头后声明它的类型。</p>
+<p>在 Rust 中，函数的返回值等同于函数体最后一个表达式的值。</p>
+<p>使用 <code>return</code> 关键字和指定值，可从函数中提前返回；但 <strong>大部分函数隐式的返回最后的表达式</strong> 。</p>
+<pre><pre class="playground"><code class="language-rust">fn five() -&gt; i32 {  // 这里声明了返回值的类型。
+    5  // 最后的表达式作为返回值，即便只是一个数字
+}
 
 fn main() {
-    println!(&quot;猜数!&quot;);
+    let x = five();
 
-    let secret_number = rand::thread_rng().gen_range(1..101);
+    println!(&quot;The value of x is: {}&quot;, x);
+}
+</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let x = plus_one(5);
 
-    // println!(&quot;神秘数字是: {}&quot;, secret_number.to_string());
+    println!(&quot;The value of x is: {}&quot;, x);
+}
 
-    loop {
-        println!(&quot;请输入你猜测的数字:&quot;);
-
-        let mut guess = String::new();
-
-        io::stdin().read_line(&amp; mut guess).expect(&quot;不能读取行!&quot;);
-
-        // 是一个Result，有 OK 和 Err 两种情况
-        let guess: u32 = match guess.trim().parse() {
-            Ok(num) =&gt; num,         // 可以转化为数字
-            Err(_) =&gt; continue,     // 进入下一次循环
-        };
-
-        println!(&quot;你输入的是： {}&quot;, guess);
-
-        match guess.cmp(&amp;secret_number){
-            Ordering::Less =&gt; println!(&quot;你输入的是： {} 太小了&quot;, guess),
-            Ordering::Greater =&gt; println!(&quot;你输入的是： {} 太大了&quot;, guess),
-            Ordering::Equal =&gt; {
-                println!(&quot;你输入的是： {} 你赢了&quot;, guess);
-                break; // 退出循环
-            }
-
-        }
-    }
+fn plus_one(x: i32) -&gt; i32 {  // 同时声明参数类型和返回值类型
+    x + 1 // 最后表达式作为返回值 ， 如果此处加上分号“;”则会变成语句，则编译会报错。
 }
 </code></pre></pre>
 
@@ -296,10 +238,10 @@ fn main() {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../explain.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../programs/3_data_type.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../programs/2_common_concept.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../programs/5_notes.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -308,10 +250,10 @@ fn main() {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../explain.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../programs/3_data_type.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../programs/2_common_concept.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../programs/5_notes.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

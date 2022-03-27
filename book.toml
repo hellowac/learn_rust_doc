@@ -10,3 +10,4 @@ build-dir = "docs"
 
 [output.html]
 # no-section-label=true
+mathjax-support = true
