@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="explain.html">说明</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="programs/1_guess_number.html"><strong aria-hidden="true">1.</strong> 程序引子 - 猜数</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 常见概念</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="programs/2_common_concept.html"><strong aria-hidden="true">2.1.</strong> 变量与可变性</a></li><li class="chapter-item expanded "><a href="programs/3_data_type.html"><strong aria-hidden="true">2.2.</strong> 数据类型</a></li><li class="chapter-item expanded "><a href="programs/4_function.html"><strong aria-hidden="true">2.3.</strong> 函数</a></li><li class="chapter-item expanded "><a href="programs/5_notes.html"><strong aria-hidden="true">2.4.</strong> 注释</a></li><li class="chapter-item expanded "><a href="programs/6_control_flow.html"><strong aria-hidden="true">2.5.</strong> 控制流</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="explain.html">说明</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="programs/1_guess_number.html"><strong aria-hidden="true">1.</strong> 程序引子 - 猜数</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 常见概念</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="programs/2_common_concept.html"><strong aria-hidden="true">2.1.</strong> 变量与可变性</a></li><li class="chapter-item expanded "><a href="programs/3_data_type.html"><strong aria-hidden="true">2.2.</strong> 数据类型</a></li><li class="chapter-item expanded "><a href="programs/4_function.html"><strong aria-hidden="true">2.3.</strong> 函数</a></li><li class="chapter-item expanded "><a href="programs/5_notes.html"><strong aria-hidden="true">2.4.</strong> 注释</a></li><li class="chapter-item expanded "><a href="programs/6_control_flow.html"><strong aria-hidden="true">2.5.</strong> 控制流</a></li></ol></li><li class="chapter-item expanded "><a href="programs/7_structs.html"><strong aria-hidden="true">3.</strong> 结构体</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="programs/8_structs_ex.html"><strong aria-hidden="true">3.1.</strong> 示例程序</a></li><li class="chapter-item expanded "><a href="programs/9_structs_define_method.html"><strong aria-hidden="true">3.2.</strong> 定义方法</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -901,6 +901,390 @@ fn plus_one(x: i32) -&gt; i32 {  // 同时声明参数类型和返回值类型
         println!(&quot;{}!&quot;, number);
     }
     println!(&quot;LIFTOFF!!!&quot;);
+}
+</code></pre></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="结构体"><a class="header" href="#结构体">结构体</a></h1>
+<p><strong>struct，或者 structure，是一个自定义数据类型，允许你包装和命名多个相关的值，从而形成一个有意义的组合。</strong></p>
+<ol>
+<li>结构体需要命名各部分数据以便能清楚的表明其值的意义。</li>
+<li>不需要依赖顺序来指定或访问实例中的值。</li>
+<li>实例中字段的顺序不需要和它们在结构体中声明的顺序一致。</li>
+<li>从结构体中获取某个特定的值，可以使用点号；如果结构体的实例是可变的，我们可以使用点号并为对应的字段赋值。【赋值时，注意整个实例必须是可变的，Rust 不允许只将某个字段标记为可变】</li>
+<li>结构体可以使用 <strong>字段初始化简写语法</strong></li>
+<li>可以通过 <strong>结构体更新语法</strong>（struct update syntax）实现。使用旧实例的大部分值但改变其部分值来创建一个新的结构体实例.</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">// 定义结构体
+struct User {
+    active: bool,   // 定义字段名 和 类型 
+    username: String,
+    email: String,
+    sign_in_count: u64,
+}
+
+fn main() {
+    
+    // 实例化结构体
+    // 实例中字段的顺序不需要和它们在结构体中声明的顺序一致。
+    let mut user1 = User { // 注意整个实例必须是可变的；Rust 并不允许只将某个字段标记为可变。
+        email: String::from(&quot;someone@example.com&quot;),
+        username: String::from(&quot;someusername123&quot;),
+        active: true,
+        sign_in_count: 1,
+    };
+
+    // 如果结构体的实例是可变的，我们可以使用点号并为对应的字段赋值。
+    user1.email = String::from(&quot;anotheremail@example.com&quot;);
+}
+</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">struct User {
+    active: bool,
+    username: String,
+    email: String,
+    sign_in_count: u64,
+}
+
+fn build_user(email: String, username: String) -&gt; User {
+    //  字段初始化简写语法
+    User {
+        email,
+        username,
+        active: true,
+        sign_in_count: 1,
+    }
+}
+
+fn main() {
+    let user1 = build_user(
+        String::from(&quot;someone@example.com&quot;),
+        String::from(&quot;someusername123&quot;),
+    );
+}
+
+</code></pre></pre>
+<h2 id="从其他实例创建实例"><a class="header" href="#从其他实例创建实例">从其他实例创建实例</a></h2>
+<pre><pre class="playground"><code class="language-rust">struct User {
+    active: bool,
+    username: String,
+    email: String,
+    sign_in_count: u64,
+}
+
+fn main() {
+    // --snip--
+
+    let user1 = User {
+        email: String::from(&quot;someone@example.com&quot;),
+        username: String::from(&quot;someusername123&quot;),
+        active: true,
+        sign_in_count: 1,
+    };
+
+    // 使用旧实例的大部分值但改变其部分值来创建一个新的结构体实例
+    let user2 = User {
+        active: user1.active,
+        username: user1.username,
+        email: String::from(&quot;another@example.com&quot;),
+        sign_in_count: user1.sign_in_count,
+    };
+
+    // .. 语法指定了剩余未显式设置值的字段应有与给定实例对应字段相同的值。
+    let user3 = User {
+        email: String::from(&quot;another@example.com&quot;),
+        ..user1
+    };
+}
+</code></pre></pre>
+<h2 id="使用未命名字段的元组结构体来创建不同的类型"><a class="header" href="#使用未命名字段的元组结构体来创建不同的类型">使用未命名字段的元组结构体来创建不同的类型</a></h2>
+<p>可以定义与元组类似的结构体，称为 <strong>元组结构体</strong>（tuple structs）。元组结构体有着结构体名称提供的含义，但没有具体的字段名，只有字段的类型。</p>
+<pre><pre class="playground"><code class="language-rust">struct Color(i32, i32, i32);  // 元组结构体
+struct Point(i32, i32, i32);
+
+fn main() {
+    let black = Color(0, 0, 0);
+    let origin = Point(0, 0, 0);
+}
+</code></pre></pre>
+<h2 id="没有任何字段的类单元结构体"><a class="header" href="#没有任何字段的类单元结构体">没有任何字段的类单元结构体</a></h2>
+<p>可以定义一个没有任何字段的结构体！它们被称为 <strong>类单元结构体</strong>（unit-like structs）因为它们类似于 <code>()</code>，即 <code>unit</code> 类型。类单元结构体常常在你想要在某个类型上实现 <code>trait</code> 但不需要在类型中存储数据的时候发挥作用。</p>
+<pre><pre class="playground"><code class="language-rust">struct AlwaysEqual;
+
+fn main() {
+    let subject = AlwaysEqual;
+}
+</code></pre></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="示例程序"><a class="header" href="#示例程序">示例程序</a></h1>
+<h2 id="版本1-调用函数"><a class="header" href="#版本1-调用函数">版本1 调用函数</a></h2>
+<p>获取以像素为单位的长方形的宽度和高度，并计算出长方形的面积。</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let width1 = 30;
+    let height1 = 50;
+
+    println!(
+        &quot;The area of the rectangle is {} square pixels.&quot;,
+        area(width1, height1)
+    );
+}
+
+fn area(width: u32, height: u32) -&gt; u32 {
+    width * height
+}
+</code></pre></pre>
+<h2 id="版本2-使用元组重构"><a class="header" href="#版本2-使用元组重构">版本2 使用元组重构</a></h2>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let rect1 = (30, 50);
+
+    println!(
+        &quot;The area of the rectangle is {} square pixels.&quot;,
+        area(rect1)
+    );
+}
+
+// 元组并没有给出元素的名称，所以计算变得更费解了，因为不得不使用索引来获取元组的每一部分：
+fn area(dimensions: (u32, u32)) -&gt; u32 {
+    dimensions.0 * dimensions.1
+}
+</code></pre></pre>
+<h2 id="使用结构体重构"><a class="header" href="#使用结构体重构">使用结构体重构</a></h2>
+<p>使用结构体为数据命名来为其赋予意义。</p>
+<pre><pre class="playground"><code class="language-rust">struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!(
+        &quot;The area of the rectangle is {} square pixels.&quot;,
+        area(&amp;rect1)
+    );
+}
+
+// 明宽高是相互联系的，并为这些值提供了描述性的名称而不是使用元组的索引值 0 和 1 。结构体胜在更清晰明了。
+fn area(rectangle: &amp;Rectangle) -&gt; u32 {
+    rectangle.width * rectangle.height
+}
+</code></pre></pre>
+<h2 id="通过派生-trait-增加实用功能"><a class="header" href="#通过派生-trait-增加实用功能">通过派生 trait 增加实用功能</a></h2>
+<pre><pre class="playground"><code class="language-rust">// 加上外部属性, 使其可以打印
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!(&quot;rect1 is {}&quot;, rect1);
+}
+</code></pre></pre>
+<p>输出如下：</p>
+<pre><code class="language-shell">$ cargo run
+   Compiling rectangles v0.1.0 (file:///projects/rectangles)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.48s
+     Running `target/debug/rectangles`
+rect1 is Rectangle {
+    width: 30,
+    height: 50,
+}
+</code></pre>
+<h2 id="使用-debug-格式打印数值"><a class="header" href="#使用-debug-格式打印数值">使用 Debug 格式打印数值</a></h2>
+<p>另一种使用 Debug 格式打印数值的方法是使用 <code>dbg!</code> 宏。<code>dbg!</code> 宏接收一个表达式的所有权，打印出代码中调用 <code>dbg!</code> 宏时所在的文件和行号，以及该表达式的结果值，并返回该值的所有权。</p>
+<blockquote>
+<p>注意：调用 <code>dbg!</code> 宏会打印到标准错误控制台流（stderr），与 println! 不同，后者会打印到标准输出控制台流（stdout）。</p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let scale = 2;
+    let rect1 = Rectangle {
+        width: dbg!(30 * scale),
+        height: 50,
+    };
+
+    dbg!(&amp;rect1);
+}
+</code></pre></pre>
+<p>输出如下：</p>
+<pre><code class="language-shell">$ cargo run
+   Compiling rectangles v0.1.0 (file:///projects/rectangles)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.61s
+     Running `target/debug/rectangles`
+[src/main.rs:10] 30 * scale = 60
+[src/main.rs:14] &amp;rect1 = Rectangle {
+    width: 60,
+    height: 50,
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="解构方法语法"><a class="header" href="#解构方法语法">解构方法语法</a></h1>
+<p><strong>方法</strong>（method）与函数类似：它们使用 <code>fn</code> 关键字和名称声明，可以拥有参数和返回值，同时包含在某处调用该方法时会执行的代码。不过方法与函数是不同的，因为它们在结构体的上下文中被定义（或者是枚举或 trait 对象的上下文），并且它们第一个参数总是 <code>self</code>，它代表调用该方法的结构体实例。</p>
+<h2 id="定义方法"><a class="header" href="#定义方法">定义方法</a></h2>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+// impl 是 implementation 的缩写
+impl Rectangle {
+    // 定义方法
+    // self 代表结构体实例本身
+    fn area(&amp;self) -&gt; u32 {
+        self.width * self.height
+    }
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!(
+        &quot;The area of the rectangle is {} square pixels.&quot;,
+        rect1.area()
+    );
+}
+
+</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    // 我们可以在 Rectangle 上定义一个方法，并命名为 width：
+    fn width(&amp;self) -&gt; bool {
+        self.width &gt; 0
+    }
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    // 在 main 中，
+    // 当我们在 rect1.width 后面加上括号时。Rust 知道我们指的是方法 width。
+    // 当我们不使用圆括号时，Rust 知道我们指的是字段 width。
+    if rect1.width() {
+        println!(&quot;The rectangle has a nonzero width; it is {}&quot;, rect1.width);
+    }
+}
+</code></pre></pre>
+<h2 id="带有更多参数的方法"><a class="header" href="#带有更多参数的方法">带有更多参数的方法</a></h2>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+// 所有在 impl 块中定义的函数被称为 关联函数（associated functions），
+impl Rectangle {
+    fn area(&amp;self) -&gt; u32 {
+        self.width * self.height
+    }
+
+    fn can_hold(&amp;self, other: &amp;Rectangle) -&gt; bool {
+        self.width &gt; other.width &amp;&amp; self.height &gt; other.height
+    }
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+    let rect2 = Rectangle {
+        width: 10,
+        height: 40,
+    };
+    let rect3 = Rectangle {
+        width: 60,
+        height: 45,
+    };
+
+    println!(&quot;Can rect1 hold rect2? {}&quot;, rect1.can_hold(&amp;rect2));
+    println!(&quot;Can rect1 hold rect3? {}&quot;, rect1.can_hold(&amp;rect3));
+}
+
+</code></pre></pre>
+<h2 id="关联函数"><a class="header" href="#关联函数">关联函数</a></h2>
+<p>所有在 <code>impl</code> 块中定义的函数被称为 <strong>关联函数</strong>（associated functions），因为它们与 <code>impl</code> 后面命名的类型相关。</p>
+<p>我们可以定义不以 <code>self</code> 为第一参数的关联函数（因此不是方法），因为它们并不作用于一个结构体的实例。</p>
+<p>在 <code>String</code> 类型上定义的 <code>String::from</code> 函数 就是这样的一个关联函数</p>
+<p><strong>不是方法的关联函数经常被用作返回一个结构体新实例的构造函数</strong>:</p>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    // 非方法的关联函数
+    fn square(size: u32) -&gt; Rectangle {
+        Rectangle {
+            width: size,
+            height: size,
+        }
+    }
+}
+
+fn main() {
+    let sq = Rectangle::square(3);
+}
+</code></pre></pre>
+<h2 id="多个-impl-块"><a class="header" href="#多个-impl-块">多个 impl 块</a></h2>
+<p>每个结构体都允许拥有多个 impl 块。</p>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+// impl 块1
+impl Rectangle {
+    fn area(&amp;self) -&gt; u32 {
+        self.width * self.height
+    }
+}
+
+// impl 块2
+impl Rectangle {
+    fn can_hold(&amp;self, other: &amp;Rectangle) -&gt; bool {
+        self.width &gt; other.width &amp;&amp; self.height &gt; other.height
+    }
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+    let rect2 = Rectangle {
+        width: 10,
+        height: 40,
+    };
+    let rect3 = Rectangle {
+        width: 60,
+        height: 45,
+    };
+
+    println!(&quot;Can rect1 hold rect2? {}&quot;, rect1.can_hold(&amp;rect2));
+    println!(&quot;Can rect1 hold rect3? {}&quot;, rect1.can_hold(&amp;rect3));
 }
 </code></pre></pre>
 

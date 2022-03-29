@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>函数</title>
+        <title>定义方法</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../explain.html">说明</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../programs/1_guess_number.html"><strong aria-hidden="true">1.</strong> 程序引子 - 猜数</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 常见概念</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../programs/2_common_concept.html"><strong aria-hidden="true">2.1.</strong> 变量与可变性</a></li><li class="chapter-item expanded "><a href="../programs/3_data_type.html"><strong aria-hidden="true">2.2.</strong> 数据类型</a></li><li class="chapter-item expanded "><a href="../programs/4_function.html" class="active"><strong aria-hidden="true">2.3.</strong> 函数</a></li><li class="chapter-item expanded "><a href="../programs/5_notes.html"><strong aria-hidden="true">2.4.</strong> 注释</a></li><li class="chapter-item expanded "><a href="../programs/6_control_flow.html"><strong aria-hidden="true">2.5.</strong> 控制流</a></li></ol></li><li class="chapter-item expanded "><a href="../programs/7_structs.html"><strong aria-hidden="true">3.</strong> 结构体</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../programs/8_structs_ex.html"><strong aria-hidden="true">3.1.</strong> 示例程序</a></li><li class="chapter-item expanded "><a href="../programs/9_structs_define_method.html"><strong aria-hidden="true">3.2.</strong> 定义方法</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../explain.html">说明</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../programs/1_guess_number.html"><strong aria-hidden="true">1.</strong> 程序引子 - 猜数</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> 常见概念</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../programs/2_common_concept.html"><strong aria-hidden="true">2.1.</strong> 变量与可变性</a></li><li class="chapter-item expanded "><a href="../programs/3_data_type.html"><strong aria-hidden="true">2.2.</strong> 数据类型</a></li><li class="chapter-item expanded "><a href="../programs/4_function.html"><strong aria-hidden="true">2.3.</strong> 函数</a></li><li class="chapter-item expanded "><a href="../programs/5_notes.html"><strong aria-hidden="true">2.4.</strong> 注释</a></li><li class="chapter-item expanded "><a href="../programs/6_control_flow.html"><strong aria-hidden="true">2.5.</strong> 控制流</a></li></ol></li><li class="chapter-item expanded "><a href="../programs/7_structs.html"><strong aria-hidden="true">3.</strong> 结构体</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../programs/8_structs_ex.html"><strong aria-hidden="true">3.1.</strong> 示例程序</a></li><li class="chapter-item expanded "><a href="../programs/9_structs_define_method.html" class="active"><strong aria-hidden="true">3.2.</strong> 定义方法</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -136,101 +136,164 @@
 
                 <div id="content" class="content">
                     <main>
-                        <ul>
-<li><a href="#%E5%87%BD%E6%95%B0">函数</a>
-<ul>
-<li><a href="#%E5%8F%82%E6%95%B0">参数</a></li>
-<li><a href="#%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F-%E5%87%BD%E6%95%B0%E4%BD%93">语句和表达式 【函数体】</a></li>
-<li><a href="#%E5%85%B7%E6%9C%89%E8%BF%94%E5%9B%9E%E5%80%BC%E7%9A%84%E5%87%BD%E6%95%B0">具有返回值的函数</a></li>
-</ul>
-</li>
-</ul>
-<h1 id="函数"><a class="header" href="#函数">函数</a></h1>
-<ol>
-<li><code>main</code> 函数，它是很多程序的入口点。</li>
-<li><code>fn</code> 关键字，它用来声明新函数。</li>
-<li><code>Rust</code> 代码中的函数和变量名使用 <code>snake case</code> 规范风格。所有字母都是小写并使用下划线分隔单词。</li>
-<li>Rust 不关心函数定义于何处，在使用函数之前或之后，只要定义了就行</li>
-</ol>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    println!(&quot;Hello, world!&quot;);
-
-    another_function();
+                        <h1 id="解构方法语法"><a class="header" href="#解构方法语法">解构方法语法</a></h1>
+<p><strong>方法</strong>（method）与函数类似：它们使用 <code>fn</code> 关键字和名称声明，可以拥有参数和返回值，同时包含在某处调用该方法时会执行的代码。不过方法与函数是不同的，因为它们在结构体的上下文中被定义（或者是枚举或 trait 对象的上下文），并且它们第一个参数总是 <code>self</code>，它代表调用该方法的结构体实例。</p>
+<h2 id="定义方法"><a class="header" href="#定义方法">定义方法</a></h2>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
 }
 
-fn another_function() {
-    println!(&quot;Another function.&quot;);
-}
-</code></pre></pre>
-<h2 id="参数"><a class="header" href="#参数">参数</a></h2>
-<ol>
-<li>可以定义为拥有 参数（parameters）的函数，参数是特殊变量，是函数签名的一部分。</li>
-<li>在函数签名中，<strong>必须</strong> 声明每个参数的类型。【要求在函数定义中提供类型注解，意味着编译器再也不需要你在代码的其他地方注明类型来指出你的意图。】</li>
-<li>当定义多个参数时，使用逗号分隔。</li>
-</ol>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    another_function(5);
-}
-
-fn another_function(x: i32) {  // 参数时函数签名的一部分
-    println!(&quot;The value of x is: {}&quot;, x);
-}
-</code></pre></pre>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    print_labeled_measurement(5, 'h');
-}
-
-fn print_labeled_measurement(value: i32, unit_label: char) {  // 必须声明每个参数的类型
-    println!(&quot;The measurement is: {}{}&quot;, value, unit_label);
-}
-</code></pre></pre>
-<h2 id="语句和表达式-函数体"><a class="header" href="#语句和表达式-函数体">语句和表达式 【函数体】</a></h2>
-<p>函数体由一系列的语句和一个可选的结尾表达式构成。</p>
-<ul>
-<li><strong>语句</strong>（Statements）是执行一些操作但不返回值的指令。</li>
-<li><strong>表达式</strong>（Expressions）计算并产生一个值。</li>
-</ul>
-<p>Rust 是一门基于 <strong>表达式</strong>（expression-based）的语言。 重点参考：<a href="https://kaisery.github.io/trpl-zh-cn/ch03-03-how-functions-work.html#%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F">https://kaisery.github.io/trpl-zh-cn/ch03-03-how-functions-work.html#%E8%AF%AD%E5%8F%A5%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F</a></p>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    let y = 6;  // 这是一个语句，不返回值
-}
-</code></pre></pre>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    let x = (let y = 6);  // let y = 6 是一个语句，不返回值，所以将其结果赋值给 x 产生错误。
-}
-</code></pre></pre>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    // 用大括号创建的一个新的块作用域也是一个表达式
-    let y = {
-        let x = 3;
-        x + 1  // 当结尾有 分号 “;” 时就表示是一个语句，而语句不会返回值，所以这里 表示 x + 1 为表达式，会作为这块作用域的返回值
-    };
-
-    println!(&quot;The value of y is: {}&quot;, y);
-}
-</code></pre></pre>
-<h2 id="具有返回值的函数"><a class="header" href="#具有返回值的函数">具有返回值的函数</a></h2>
-<p>函数可以向调用它的代码返回值。在函数括号后面使用箭头（-&gt;）并在剪头后声明它的类型。</p>
-<p>在 Rust 中，函数的返回值等同于函数体最后一个表达式的值。</p>
-<p>使用 <code>return</code> 关键字和指定值，可从函数中提前返回；但 <strong>大部分函数隐式的返回最后的表达式</strong> 。</p>
-<pre><pre class="playground"><code class="language-rust">fn five() -&gt; i32 {  // 这里声明了返回值的类型。
-    5  // 最后的表达式作为返回值，即便只是一个数字
+// impl 是 implementation 的缩写
+impl Rectangle {
+    // 定义方法
+    // self 代表结构体实例本身
+    fn area(&amp;self) -&gt; u32 {
+        self.width * self.height
+    }
 }
 
 fn main() {
-    let x = five();
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
 
-    println!(&quot;The value of x is: {}&quot;, x);
+    println!(
+        &quot;The area of the rectangle is {} square pixels.&quot;,
+        rect1.area()
+    );
+}
+
+</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    // 我们可以在 Rectangle 上定义一个方法，并命名为 width：
+    fn width(&amp;self) -&gt; bool {
+        self.width &gt; 0
+    }
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    // 在 main 中，
+    // 当我们在 rect1.width 后面加上括号时。Rust 知道我们指的是方法 width。
+    // 当我们不使用圆括号时，Rust 知道我们指的是字段 width。
+    if rect1.width() {
+        println!(&quot;The rectangle has a nonzero width; it is {}&quot;, rect1.width);
+    }
 }
 </code></pre></pre>
-<pre><pre class="playground"><code class="language-rust">fn main() {
-    let x = plus_one(5);
-
-    println!(&quot;The value of x is: {}&quot;, x);
+<h2 id="带有更多参数的方法"><a class="header" href="#带有更多参数的方法">带有更多参数的方法</a></h2>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
 }
 
-fn plus_one(x: i32) -&gt; i32 {  // 同时声明参数类型和返回值类型
-    x + 1 // 最后表达式作为返回值 ， 如果此处加上分号“;”则会变成语句，则编译会报错。
+// 所有在 impl 块中定义的函数被称为 关联函数（associated functions），
+impl Rectangle {
+    fn area(&amp;self) -&gt; u32 {
+        self.width * self.height
+    }
+
+    fn can_hold(&amp;self, other: &amp;Rectangle) -&gt; bool {
+        self.width &gt; other.width &amp;&amp; self.height &gt; other.height
+    }
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+    let rect2 = Rectangle {
+        width: 10,
+        height: 40,
+    };
+    let rect3 = Rectangle {
+        width: 60,
+        height: 45,
+    };
+
+    println!(&quot;Can rect1 hold rect2? {}&quot;, rect1.can_hold(&amp;rect2));
+    println!(&quot;Can rect1 hold rect3? {}&quot;, rect1.can_hold(&amp;rect3));
+}
+
+</code></pre></pre>
+<h2 id="关联函数"><a class="header" href="#关联函数">关联函数</a></h2>
+<p>所有在 <code>impl</code> 块中定义的函数被称为 <strong>关联函数</strong>（associated functions），因为它们与 <code>impl</code> 后面命名的类型相关。</p>
+<p>我们可以定义不以 <code>self</code> 为第一参数的关联函数（因此不是方法），因为它们并不作用于一个结构体的实例。</p>
+<p>在 <code>String</code> 类型上定义的 <code>String::from</code> 函数 就是这样的一个关联函数</p>
+<p><strong>不是方法的关联函数经常被用作返回一个结构体新实例的构造函数</strong>:</p>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    // 非方法的关联函数
+    fn square(size: u32) -&gt; Rectangle {
+        Rectangle {
+            width: size,
+            height: size,
+        }
+    }
+}
+
+fn main() {
+    let sq = Rectangle::square(3);
+}
+</code></pre></pre>
+<h2 id="多个-impl-块"><a class="header" href="#多个-impl-块">多个 impl 块</a></h2>
+<p>每个结构体都允许拥有多个 impl 块。</p>
+<pre><pre class="playground"><code class="language-rust">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+// impl 块1
+impl Rectangle {
+    fn area(&amp;self) -&gt; u32 {
+        self.width * self.height
+    }
+}
+
+// impl 块2
+impl Rectangle {
+    fn can_hold(&amp;self, other: &amp;Rectangle) -&gt; bool {
+        self.width &gt; other.width &amp;&amp; self.height &gt; other.height
+    }
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+    let rect2 = Rectangle {
+        width: 10,
+        height: 40,
+    };
+    let rect3 = Rectangle {
+        width: 60,
+        height: 45,
+    };
+
+    println!(&quot;Can rect1 hold rect2? {}&quot;, rect1.can_hold(&amp;rect2));
+    println!(&quot;Can rect1 hold rect3? {}&quot;, rect1.can_hold(&amp;rect3));
 }
 </code></pre></pre>
 
@@ -238,11 +301,8 @@ fn plus_one(x: i32) -&gt; i32 {  // 同时声明参数类型和返回值类型
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../programs/3_data_type.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../programs/8_structs_ex.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
-                            </a>
-                            <a rel="next" href="../programs/5_notes.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -250,11 +310,8 @@ fn plus_one(x: i32) -&gt; i32 {  // 同时声明参数类型和返回值类型
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../programs/3_data_type.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../programs/8_structs_ex.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
-                    </a>
-                    <a rel="next" href="../programs/5_notes.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 

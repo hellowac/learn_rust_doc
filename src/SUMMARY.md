@@ -11,3 +11,6 @@
   - [函数](./programs/4_function.md)
   - [注释](./programs/5_notes.md)
   - [控制流](./programs/6_control_flow.md)
+- [结构体](./programs/7_structs.md)
+  - [示例程序](./programs/8_structs_ex.md)
+  - [定义方法](./programs/9_structs_define_method.md)
